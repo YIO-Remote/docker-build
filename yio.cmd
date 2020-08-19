@@ -17,7 +17,7 @@ REM
 
 SETLOCAL
 SET YIO_PROJECTS_SOURCE=yio-projects
-SET YIO_DOCKER_IMG=gcr.io/yio-remote/build
+SET YIO_DOCKER_IMG=yioremote/remote-os-build
 
 IF NOT DEFINED YIO_BUILD_OUTPUT (
 	ECHO Environment variable YIO_BUILD_OUTPUT not defined!

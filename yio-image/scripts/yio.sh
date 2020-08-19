@@ -22,7 +22,6 @@ LINGUIST_LRELEASE=/usr/lib/qt5/bin/lrelease
 #=============================================================
 
 GitProjects=(
-    "https://github.com/YIO-Remote/integration.dock.git,master"
     "https://github.com/YIO-Remote/integration.homey.git,master"
     "https://github.com/YIO-Remote/integration.home-assistant.git,master"
     "https://github.com/YIO-Remote/integration.openhab.git,master"
@@ -36,10 +35,10 @@ GitProjects=(
 )
 
 QtIntegrationProjects=(
-    integration.dock
-    integration.ir
     integration.home-assistant
     integration.homey
+    integration.openhab
+    integration.spotify
 )
 
 #=============================================================

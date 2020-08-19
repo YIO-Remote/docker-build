@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   build:
-    image: gcr.io/yio-remote/build
+    image: yioremote/remote-os-build
     container_name: yio-remote-build
     hostname: yio-builder
     volumes:

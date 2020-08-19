@@ -6,8 +6,8 @@ ARG VERSION
 ARG REVISION
 LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.authors="markus.zehnder@trivadis.com"
-LABEL org.opencontainers.image.url="https://github.com/YIO-Remote/remote-os/tree/master/docker"
-LABEL org.opencontainers.image.source="https://github.com/YIO-Remote/remote-os.git"
+LABEL org.opencontainers.image.url="https://github.com/YIO-Remote/docker-build/tree/master"
+LABEL org.opencontainers.image.source="https://github.com/YIO-Remote/docker-build.git"
 LABEL org.opencontainers.image.version=$VERSION
 LABEL org.opencontainers.image.revision=$REVISION
 LABEL org.opencontainers.image.vendor="YIO"

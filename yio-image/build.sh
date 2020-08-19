@@ -5,8 +5,8 @@
 #
 #=============================================================
 
-TARGET_REPO="gcr.io/"
-BASE_IMAGE_NAME="yio-remote/build"
+TARGET_REPO=""
+BASE_IMAGE_NAME="yioremote/remote-os-build"
 DOCKEROPS="--pull --no-cache=true"
 DOCKER_PUSH="n"
 

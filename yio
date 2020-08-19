@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Wrapper build script for yio-remote/build Docker image
+# Wrapper build script for yioremote/remote-os-build Docker image
 # https://github.com/YIO-Remote/documentation/wiki
 # Symlink this script in /usr/local/bin to call it from anywhere
 #
@@ -21,7 +21,7 @@ set -e
 #YIO_BUILD_OUTPUT=/projects/yio/build-output 
 
 YIO_PROJECTS_SOURCE=yio-projects
-YIO_DOCKER_IMG=gcr.io/yio-remote/build
+YIO_DOCKER_IMG=yioremote/remote-os-build
 
 # --- Helper functions ---
 
