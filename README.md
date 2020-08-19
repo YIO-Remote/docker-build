@@ -199,12 +199,12 @@ Remove Docker volume containing project sources:
 
 ## Creating the YIO-Remote Build Image
 
-The Docker image can be built with the Dockerfile in the subdirectory `./yio-image`:
+The Docker image can be built with the Dockerfile in the subdirectory `./docker`:
 
 - Based on Ubuntu 19.10
 - Build takes several minutes depending on internet speed and mirrors used
 
-The wrapper script `./yio-image/build.sh` handles build parameters (e.g. disabling build cache) and optionally pushes the image into a registry. See options with:
+The wrapper script `./docker/build.sh` handles build parameters (e.g. disabling build cache) and optionally pushes the image into a registry. See options with:
 
     ./build.sh -h
 
