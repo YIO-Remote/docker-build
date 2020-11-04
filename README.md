@@ -29,7 +29,7 @@ Therefore this Docker image acts as an universal build tool for Linux, macOS and
 
 ## Requirements
 
-Attention Windows users: Docker Desktop for Windows uses Microsoft Hyper-V for virtualization, and Hyper-V is not compatible with Oracle VirtualBox.
+Attention Windows users: Docker Desktop for Windows uses Microsoft Hyper-V for virtualization, and Hyper-V is not compatible with other virtualization technologies like Oracle VirtualBox or VMware. WLS2 should work, but hasn't been tested yet.
 
 - Working [Docker installation](https://docs.docker.com/install/) (tested with 19.03).
 - At least 20 GB of free disk space. SSD is highly recommended!
@@ -63,7 +63,7 @@ The scripts require the environment variable `YIO_BUILD_OUTPUT` for the host dir
 
 - `yio` - Bash script for Linux and macOS:
   - Symlink the script to `/usr/local/bin` to make it accessible from anywhere.  
-  E.g. `ln -s /projects/yio/remote-os/docker/yio /usr/local/bin/yio`
+  E.g. `sudo ln -s /projects/yio/docker-build/yio /usr/local/bin/yio`
 
   - Define `YIO_BUILD_OUTPUT` in your shell environment (e.g. ~/.bashrc or ~/.profile):
 
