@@ -10,7 +10,6 @@ set -e
 DEBUG_BUILD=y
 CPU_CORES=$(getconf _NPROCESSORS_ONLN)
 
-SDCARD_IMG=${BUILDROOT_OUTPUT}/images/yio-remote-sdcard.img
 BUILD_OUTPUT=/yio-remote/target
 
 CROSSCOMPILE_BIN=${BUILDROOT_OUTPUT}/host/bin
@@ -22,6 +21,8 @@ LINGUIST_LRELEASE=/usr/lib/qt5/bin/lrelease
 #=============================================================
 
 GitProjects=(
+    "https://github.com/YIO-Remote/integration.bangolufsen.git,master"
+    "https://github.com/YIO-Remote/integration.dock.git,master"
     "https://github.com/YIO-Remote/integration.homey.git,master"
     "https://github.com/YIO-Remote/integration.home-assistant.git,master"
     "https://github.com/YIO-Remote/integration.openhab.git,master"
@@ -35,10 +36,14 @@ GitProjects=(
 )
 
 QtIntegrationProjects=(
-    integration.home-assistant
+    integration.bangolufsen
+    integration.dock
     integration.homey
+    integration.home-assistant
     integration.openhab
     integration.spotify
+    integration.openweather
+    integration.roon
 )
 
 #=============================================================
@@ -82,7 +87,26 @@ header() {
 gitInfo() {
     cd "${YIO_SRC}/$1"
     if [ -d ".git" ]; then
-        printf "%-30s %-30s %s\n" $1 $(git rev-parse --abbrev-ref HEAD) $(git log --pretty=format:'%h' -n 1)
+        local DEF_VER=UNKNOWN
+        local LF='
+'
+        if BUILD_VERSION=$(git describe --match "v[0-9]*" --tags HEAD 2>/dev/null) &&
+            case "$BUILD_VERSION" in
+            *$LF*) (exit 1) ;;
+            v[0-9]*)
+                # added or modified files? Mark it dirty! (New files are not considered)
+                git update-index -q --refresh
+                test -z "$(git diff-index --name-only HEAD --)" || BUILD_VERSION="$BUILD_VERSION-dirty" ;;
+            esac
+        then
+            # here we could adjust the version from the Git tag. E.g. replace dash with dot
+            # BUILD_VERSION=$(echo "$BUILD_VERSION" | sed -e 's/-/./g');
+            :
+        else
+            BUILD_VERSION="$DEF_VER"
+        fi
+
+        printf "%-30s %-30s %s\n" $1 $(git rev-parse --abbrev-ref HEAD) $BUILD_VERSION
     fi
 }
 
@@ -246,16 +270,16 @@ buildRemoteOS() {
 
     if [ ! "$1" = "SKIP_BUILD_IMAGE=y" ]; then
         header "remote-os build succeeded: copying SD card image to $BUILD_OUTPUT"
-        cp "$SDCARD_IMG" $BUILD_OUTPUT
+        cp ${BUILDROOT_OUTPUT}/images/yio-remote-sdcard* "$BUILD_OUTPUT"
     fi
 }
 
 #=============================================================
 
 cleanQtProject() {
-    if [ -f "${YIO_SRC}/${1}/Makefile" ]; then
+    if [ -f "${YIO_SRC}/${1}/build/Makefile" ]; then
         header "Cleaning Qt project $1..."
-        cd "${YIO_SRC}/$1"
+        cd "${YIO_SRC}/${1}/build"
         make clean
     fi
 }
@@ -277,7 +301,7 @@ buildQtProject() {
     mkdir -p build
     cd build
 
-    $QMAKE_CROSSCOMPILE "${YIO_SRC}/$1" "CONFIG+=$(if [ "$DEBUG_BUILD" = "n" ]; then echo "release"; else echo "debug CONFIG+=qml_debug"; fi)"
+    QT_LINGUIST_DIR=$CROSSCOMPILE_BIN $QMAKE_CROSSCOMPILE "${YIO_SRC}/$1" "CONFIG+=$(if [ "$DEBUG_BUILD" = "n" ]; then echo "release"; else echo "debug CONFIG+=qml_debug"; fi)"
     make qmake_all
 
     make -j$CPU_CORES
